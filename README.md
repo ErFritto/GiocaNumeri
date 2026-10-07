@@ -1,4 +1,4 @@
-# GiocaNumeri — Analisi del progetto
+# GiocaNumeri-Analisi del progetto
 
 ## 1. Comportamento del programma
 
