@@ -10,19 +10,24 @@ public class GiocaNumeri {
     public static void main(String[] args)  {
         System.out.println("Benvenuto");
 
+
         Giocatore g1 = new Giocatore("gigi", 0);
         Giocatore g2 = new Giocatore("guizo", 0);
-        g1.start();
+
+        Thread t = new Thread(g1);
+        t.start();
+        Thread t2 = new Thread(g2);
+
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             System.err.println("Pausa interrotta: " + e.getMessage());
         }
-        g2.start();
+        t2.start();
 
         try {
-            g1.join();
-            g2.join();
+            t.join();
+            t2.join();
         } catch (InterruptedException e) {
             System.err.println("transizione forzata");
         }
@@ -30,3 +35,4 @@ public class GiocaNumeri {
         System.out.println("Fine gioco!");
     }
 }
+

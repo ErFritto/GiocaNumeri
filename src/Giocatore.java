@@ -1,7 +1,9 @@
+import static java.lang.Thread.sleep;
+
 /**
  * Rappresenta un giocatore del gioco che esegue le proprie azioni in un thread separato.
  */
-public class Giocatore extends Thread {
+public class  Giocatore implements Runnable {
 
     /** Nome del giocatore. */
     String nome;
