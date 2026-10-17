@@ -14,14 +14,17 @@ public class GiocaNumeri {
         Giocatore g1 = new Giocatore("gigi", 0);
         Giocatore g2 = new Giocatore("guizo", 0);
 
-        Thread t = new Thread(g1);
+        Thread t = new Thread(g1, "Giocatore gigi");
+        long inizioGioco = System.nanoTime();
         t.start();
-        Thread t2 = new Thread(g2);
+        Thread t2 = new Thread(g2, "Giocatore guizo");
 
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             System.err.println("Pausa interrotta: " + e.getMessage());
+            Thread.currentThread().interrupt();
+            return;
         }
         t2.start();
 
@@ -30,8 +33,12 @@ public class GiocaNumeri {
             t2.join();
         } catch (InterruptedException e) {
             System.err.println("transizione forzata");
+            Thread.currentThread().interrupt();
+            return;
         }
 
+        long durataGioco = System.nanoTime() - inizioGioco;
+        System.out.printf("Tempo totale del gioco: %.3f ms%n", durataGioco / 1_000_000.0);
         System.out.println("Fine gioco!");
     }
 }

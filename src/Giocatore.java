@@ -1,9 +1,7 @@
-import static java.lang.Thread.sleep;
-
 /**
  * Rappresenta un giocatore del gioco che esegue le proprie azioni in un thread separato.
  */
-public class  Giocatore implements Runnable {
+public class Giocatore implements Runnable {
 
     /** Nome del giocatore. */
     String nome;
@@ -20,7 +18,7 @@ public class  Giocatore implements Runnable {
      */
     public Giocatore(String nome, int punteggio) {
         this.nome = nome;
-        this.punteggio = 0;
+        this.punteggio = punteggio;
 
     }
 
@@ -29,8 +27,17 @@ public class  Giocatore implements Runnable {
      */
     @Override                                                    
     public void run() {
-        gioca();
-        comunica();
+        Thread thread = Thread.currentThread();
+        long inizio = System.nanoTime();
+        System.out.printf("Thread %s: id=%d, priorità=%d, stato=%s%n",
+                thread.getName(), thread.getId(), thread.getPriority(), thread.getState());
+        try {
+            gioca();
+            comunica();
+        } finally {
+            long durata = System.nanoTime() - inizio;
+            System.out.printf("Tempo giocatore %s: %.3f ms%n", nome, durata / 1_000_000.0);
+        }
     }
 
     /**
@@ -46,7 +53,7 @@ public class  Giocatore implements Runnable {
             System.out.println("Giocatore " + nome + ": " + i);
             Thread.yield();
             try {
-                sleep(2000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 System.err.println("Errore nella transizione running-sleaping");
                 Thread.currentThread().interrupt();
